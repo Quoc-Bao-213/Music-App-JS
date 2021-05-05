@@ -136,10 +136,12 @@ const app = {
             }
         }
         
+        // Event mouse on browser
         progress.onmousedown = function () {
             checkOnMouseAndTouch = false;
         }
 
+        // Event mouse on mobile
         progress.ontouchstart = function () {
             checkOnMouseAndTouch = false;
         }
@@ -228,11 +230,21 @@ const app = {
         heading.textContent = this.currentSong.name
         cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`
         audio.src = this.currentSong.path
+
+        this.setConfig('songIsPlaying', this.currentIndex)
     },
 
     loadConfig: function () {
-        this.isRandom = this.config.isRandom
-        this.isRepeat = this.config.isRepeat
+        if (Object.keys(this.config).length !== 0) {
+            if (this.config.hasOwnProperty('songIsPlaying'))
+                this.currentIndex = this.config.songIsPlaying
+            
+            if (this.config.hasOwnProperty('isRepeat'))
+                this.isRepeat = this.config.isRepeat
+            
+            if (this.config.hasOwnProperty('isRandom'))
+                this.isRandom = this.config.isRandom
+        }
     },
 
     nextSong: function () {
