@@ -22,6 +22,7 @@ const app = {
     isRandom: false,
     isRepeat: false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
+    songIsPlayed: [],
     songs: [
         {
             name: 'Cold',
@@ -83,6 +84,7 @@ const app = {
     handleEvents: function () {
         const _this = this
         const cdWidth = cd.offsetWidth
+        let checkOnMouseAndTouch = true;
 
         // Rotate CD
         const cdThumbAnimate = cdThumb.animate([
@@ -128,16 +130,25 @@ const app = {
 
         // Set progress bar
         audio.ontimeupdate = function () {
-            if (this.duration) {
+            if (this.duration && checkOnMouseAndTouch) {
                 const progressPercent = Math.floor(this.currentTime / this.duration * 100)
                 progress.value = progressPercent
             }
+        }
+        
+        progress.onmousedown = function () {
+            checkOnMouseAndTouch = false;
+        }
+
+        progress.ontouchstart = function () {
+            checkOnMouseAndTouch = false;
         }
 
         // Skip time of song
         progress.onchange = function (e) {
             const seekTime = audio.duration / 100 * e.target.value
             audio.currentTime = seekTime
+            checkOnMouseAndTouch = true;
         }
 
         // When click next song
@@ -207,7 +218,8 @@ const app = {
         setTimeout(() => {
             $('.song.active').scrollIntoView({
                 behavior: 'smooth',
-                block: 'nearest'
+                block: "end",
+                inline: "nearest",
             })
         }, 300)
     },
@@ -245,8 +257,13 @@ const app = {
 
     playRandomSong: function () {
         let newIndex
+
         do {
             newIndex = Math.floor(Math.random() * this.songs.length)
+
+            if (this.songIsPlayed.indexOf(newIndex) === -1) {
+                this.songIsPlayed.push(newIndex);
+            }
         } while (newIndex === this.currentIndex)
 
         this.currentIndex = newIndex
