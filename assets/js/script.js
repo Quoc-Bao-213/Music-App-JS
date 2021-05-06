@@ -24,7 +24,7 @@ const app = {
     isRepeat: false,
     setupVolume: 100,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
-    songIsPlayed: [],
+    listRandomSongs: [],
     songs: [
         {
             name: 'Cold',
@@ -263,8 +263,10 @@ const app = {
             if (this.config.hasOwnProperty('isRandom'))
                 this.isRandom = this.config.isRandom
             
-            if (this.config.hasOwnProperty('volume'))
+            if (this.config.hasOwnProperty('volume')) {
                 this.setupVolume = this.config.volume
+                audio.volume = this.config.volume
+            }
         }
     },
 
@@ -289,19 +291,23 @@ const app = {
     },
 
     playRandomSong: function () {
-        let newIndex
+        let songsIndex = [];
 
-        do {
-            newIndex = Math.floor(Math.random() * this.songs.length)
-
-            if (this.songIsPlayed.indexOf(newIndex) === -1) {
-                this.songIsPlayed.push(newIndex);
+        if (this.listRandomSongs.length === 0) {
+            for (let i = 0; i < this.songs.length; i++) {
+                songsIndex.push(i);
             }
-        } while (newIndex === this.currentIndex)
 
-        this.currentIndex = newIndex
+            this.listRandomSongs = songsIndex.sort(() => { return 0.5 - Math.random() })
+        }
 
-        this.loadCurrentSong()
+        console.log(this.listRandomSongs);
+
+        if(this.listRandomSongs.length > 0) {
+            this.currentIndex = this.listRandomSongs.pop();
+        }
+
+        this.loadCurrentSong();
     },
 
     start: function () {
