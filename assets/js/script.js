@@ -50,6 +50,24 @@ const app = {
             path: './assets/music/Tired Kygo Remix.mp3',
             image: './assets/img/tired.jpg'
         },
+        {
+            name: 'Million Days',
+            singer: 'Sabai ft. Hoang & Claire Ridgely',
+            path: './assets/music/Sabai Million Days.mp3',
+            image: './assets/img/milliondays.jpg'
+        },
+        {
+            name: 'The Ocean',
+            singer: 'Mike Perry ft Shy Martin',
+            path: './assets/music/Mike Perry The Ocean.mp3',
+            image: './assets/img/theocean.jpg'
+        },
+        {
+            name: 'End Of The Night',
+            singer: 'Danny Avila',
+            path: './assets/music/Danny Avila End Of The Night.mp3',
+            image: './assets/img/End Of The Night.jpg'
+        },
     ],
 
     setConfig: function (key, value) {
@@ -300,8 +318,6 @@ const app = {
 
             this.listRandomSongs = songsIndex.sort(() => { return 0.5 - Math.random() })
         }
-
-        console.log(this.listRandomSongs);
 
         if(this.listRandomSongs.length > 0) {
             this.currentIndex = this.listRandomSongs.pop();
