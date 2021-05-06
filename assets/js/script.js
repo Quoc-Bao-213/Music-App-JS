@@ -15,12 +15,14 @@ const nextBtn = $('.btn-next')
 const randomBtn = $('.btn-random')
 const repeatBtn = $('.btn-repeat')
 const playlist = $('.playlist')
+const volume = $('.volume')
 
 const app = {
     currentIndex: 0,
     isPlaying: false,
     isRandom: false,
     isRepeat: false,
+    setupVolume: 100,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     songIsPlayed: [],
     songs: [
@@ -214,6 +216,22 @@ const app = {
                 }
             }
         }
+
+        // Volume on mobile
+        volume.ontouchmove = function (e) {
+            _this.setupVolume = e.target.value / 100
+            audio.volume = _this.setupVolume
+
+            _this.setConfig('volume', _this.setupVolume)
+        }
+
+        // Volume on browser
+        volume.onmousemove = function (e) {
+            _this.setupVolume = e.target.value / 100
+            audio.volume = _this.setupVolume
+
+            _this.setConfig('volume', _this.setupVolume)
+        }
     },
 
     scrollToActiveSong: function () {
@@ -244,6 +262,9 @@ const app = {
             
             if (this.config.hasOwnProperty('isRandom'))
                 this.isRandom = this.config.isRandom
+            
+            if (this.config.hasOwnProperty('volume'))
+                this.setupVolume = this.config.volume
         }
     },
 
@@ -290,6 +311,7 @@ const app = {
         this.loadCurrentSong() // Load first song when start app
         this.render()  // Render playlist
 
+        volume.value = this.setupVolume * 100
         randomBtn.classList.toggle('active', this.isRandom)
         repeatBtn.classList.toggle('active', this.isRepeat)
     }
