@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --inspect src/index.js",
+    "beautiful": "prettier --single-quote --trailing-comma all --tab-width 4 --write src/**/*.{js,json}",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
