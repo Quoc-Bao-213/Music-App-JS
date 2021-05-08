@@ -1,0 +1,35 @@
+{
+  "name": "music-app-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quoc-Bao-213/Music-App-JS.git"
+  },
+  "keywords": [
+    "music",
+    "player",
+    "nodejs"
+  ],
+  "author": "CnCyrus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Quoc-Bao-213/Music-App-JS/issues"
+  },
+  "homepage": "https://github.com/Quoc-Bao-213/Music-App-JS#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.12.7",
+    "mongoose-sequence": "^5.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
+  }
+}
