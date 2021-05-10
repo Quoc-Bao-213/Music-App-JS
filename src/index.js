@@ -2,6 +2,7 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const methodOverride = require('method-override');
+const colors = require('colors');
 
 const route = require('./routes');
 const db = require('./config/db');

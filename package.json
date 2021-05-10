@@ -26,11 +26,13 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.3.2",
+    "express-validator": "^6.11.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.12.7",
     "mongoose-sequence": "^5.3.1"
   },
   "devDependencies": {
+    "colors": "^1.4.0",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   }

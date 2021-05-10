@@ -2,16 +2,22 @@ const mongoose = require('mongoose');
 
 async function connect() {
     try {
-        await mongoose.connect('mongodb://localhost:27017/music_player_dev', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useFindAndModify: false,
-            useCreateIndex: true,
-        });
+        const connection = await mongoose.connect(
+            'mongodb://localhost:27017/music_player_dev',
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useFindAndModify: false,
+                useCreateIndex: true,
+            },
+        );
 
-        console.log('Connect successfully!');
+        console.log(
+            `MongoDB Connected: ${connection.connection.host}`.rainbow.underline
+                .bold,
+        );
     } catch (error) {
-        console.log('Connect failure!');
+        console.log(error);
     }
 }
 
