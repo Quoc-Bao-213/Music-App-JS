@@ -1,6 +1,7 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
+const methodOverride = require('method-override');
 
 const route = require('./routes');
 const db = require('./config/db');
@@ -22,6 +23,9 @@ app.use(
 );
 app.use(express.json());
 
+// Method Override
+app.use(methodOverride('_method'));
+
 // Template engine
 app.engine(
     'hbs',
@@ -31,10 +35,6 @@ app.engine(
 );
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
-
-app.get('/', (req, res) => {
-    res.render('home');
-});
 
 // Route init
 route(app);

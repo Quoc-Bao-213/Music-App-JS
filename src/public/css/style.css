@@ -62,6 +62,12 @@ header h2 {
 	font-size: 20px;
 }
 
+header a {
+	float: left;
+	color: #666;
+	font-size: 18px;
+}
+
 /* CD */
 .cd {
 	display: flex;
