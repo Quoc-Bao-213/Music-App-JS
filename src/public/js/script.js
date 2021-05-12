@@ -25,50 +25,15 @@ const app = {
     setupVolume: 100,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     listRandomSongs: [],
-    songs: [
-        {
-            name: 'Cold',
-            singer: 'NEFFEX',
-            path: './music/NEFFEX-Cold.mp3',
-            image: './img/cold.jpg',
-        },
-        {
-            name: 'Grateful',
-            singer: 'NEFFEX',
-            path: './music/NEFFEX-Grateful.mp3',
-            image: './img/grateful.jpg',
-        },
-        {
-            name: 'Rumors',
-            singer: 'NEFFEX',
-            path: './music/NEFFEX-Rumors.mp3',
-            image: './img/rumors.jpg',
-        },
-        {
-            name: 'Tired',
-            singer: 'Alan Walker ft Gavin James',
-            path: './music/Tired Kygo Remix.mp3',
-            image: './img/tired.jpg',
-        },
-        {
-            name: 'Million Days',
-            singer: 'Sabai ft. Hoang & Claire Ridgely',
-            path: './music/Sabai Million Days.mp3',
-            image: './img/milliondays.jpg',
-        },
-        {
-            name: 'The Ocean',
-            singer: 'Mike Perry ft Shy Martin',
-            path: './music/Mike Perry The Ocean.mp3',
-            image: './img/theocean.jpg',
-        },
-        {
-            name: 'End Of The Night',
-            singer: 'Danny Avila',
-            path: './music/Danny Avila End Of The Night.mp3',
-            image: './img/End Of The Night.jpg',
-        },
-    ],
+    songs: [],
+
+    getApiListSongs: async function () {
+        const response = await fetch('http://localhost:3030/api-songs');
+        const myJson = await response.json();
+        myJson.forEach((value, index) => {
+            this.songs.push(value)
+        })
+    },
 
     setConfig: function (key, value) {
         this.config[key] = value;
@@ -334,7 +299,8 @@ const app = {
         this.loadCurrentSong();
     },
 
-    start: function () {
+    start: async function () {
+        await this.getApiListSongs();
         this.loadConfig();
         this.defineProperties(); // Define Props
         this.handleEvents(); // Listen events
