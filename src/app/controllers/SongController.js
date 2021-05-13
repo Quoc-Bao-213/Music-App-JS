@@ -8,7 +8,7 @@ class SongController {
     }
 
     // [POST] /songs/store
-    store(req, res, next) {
+    store(req, res) {
         let audio, image;
         let isImage = ['image/png', 'image/jpeg'],
             isAudio = ['audio/mpeg'];
@@ -27,33 +27,50 @@ class SongController {
             },
             filename: (req, file, callback) => {
                 if (isImage.includes(file.mimetype)) {
-                    image = `${Date.now()}-tqbao-${file.originalname}`;
+                    image = `${Date.now()}-${file.originalname}`;
                     callback(null, image);
                 } else if (isAudio.includes(file.mimetype)) {
-                    audio = `${Date.now()}-tqbao-${file.originalname}`;
+                    audio = `${Date.now()}-${file.originalname}`;
                     callback(null, audio);
                 }
             },
         });
 
-        let uploadFile = multer({ storage: diskStorage }).any();
+        let uploadFile = multer({
+            storage: diskStorage,
+            fileFilter: (req, file, callback) => {
+                if (
+                    isImage.includes(file.mimetype) ||
+                    isAudio.includes(file.mimetype)
+                ) {
+                    callback(null, true);
+                } else {
+                    callback(null, false);
+                    return callback(
+                        new Error(
+                            'Only .png, .jpeg, .jpg and .mp3 format allowed!',
+                        ),
+                    );
+                }
+            },
+        }).any();
 
         uploadFile(req, res, (error) => {
             if (error) {
                 return res.send(`Error when trying to upload: ${error}`);
+            } else {
+                const song = new Song({
+                    name: req.body.name,
+                    singer: req.body.singer,
+                    image: './img/' + image,
+                    path: './music/' + audio,
+                });
+
+                song.save();
+
+                res.redirect('back');
             }
-
-            const song = new Song({
-                name: req.body.name,
-                singer: req.body.singer,
-                image: './img/' + image,
-                path: './music/' + audio,
-            });
-
-            song.save();
         });
-
-        res.redirect('back');
     }
 }
 

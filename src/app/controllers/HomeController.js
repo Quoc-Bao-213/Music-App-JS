@@ -1,18 +1,16 @@
 const Song = require('../models/Music');
-const { multipleMongooseToObject } = require('../../util/mongoose');
 
 class HomeController {
     // [GET] /
     index(req, res) {
-        res.render('home')
+        res.render('home');
     }
 
+    // [GET] /api-songs
     getApiListSongs(req, res, next) {
         Song.find({})
             .then((songs) => {
-                res.json(
-                    songs
-                );
+                res.json(songs);
             })
             .catch(next);
     }

@@ -30,9 +30,9 @@ const app = {
     getApiListSongs: async function () {
         const response = await fetch('http://localhost:3030/api-songs');
         const myJson = await response.json();
-        myJson.forEach((value, index) => {
-            this.songs.push(value)
-        })
+        myJson.forEach((value) => {
+            this.songs.push(value);
+        });
     },
 
     setConfig: function (key, value) {
